@@ -1,0 +1,4 @@
+2025-02-15 22:01:09
+Deny process:/usr/bin/gedit pid:9400 user:yueyiqiao open file: /home/yueyiqiao/桌面/test/test.cpp mode:0x8001
+2025-02-15 22:01:10
+Deny process:/usr/bin/gedit pid:9400 user:yueyiqiao open file: /home/yueyiqiao/桌面/test/test.cpp mode:0x8001

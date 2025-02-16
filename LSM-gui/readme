@@ -1,0 +1,52 @@
+运行前检查：
+内核版本>=5.7
+判断内核是否支持 BPF LSM:cat /sys/kernel/security/lsm
+查看输出是否包含 bpf 选项。
+如果输出不包含，可以通过修改 ：/etc/default/grub GRUB_CMDLINE_LINUX="lsm=bpf"
+并通过 命令更新 grub 配置，然后重启系统
+////////////////////////////////////
+所有trigger：
+ {{"open", TRIGGER_OPEN} 文件打开
+  {"file_mmap", TRIGGER_FILE_MMAP} 文件mmap
+  {"open_w", TRIGGER_OPEN_WRITE} 文件打开 flag&write
+  {"open_r", TRIGGER_OPEN_READ} 文件打开 flag&read
+  {"open_rw", TRIGGER_OPEN_RW} 文件打开 flag&read and flag&write
+   {"dir_restrict", TRIGGER_DIR_RESTRICT} 目录访问限制 
+  {"dir_restrict_r", TRIGGER_DIR_RESTRICT_R} 目录访问限制 flag&read
+  {"dir_restrict_w", TRIGGER_DIR_RESTRICT_W} 目录访问限制 flag&write
+  {"dir_restrict_rw", TRIGGER_DIR_RESTRICT_RW} 目录访问限制 flag&read and flag&write
+  {"exe", TRIGGER_EXE} 文件执行
+  {"link", TRIGGER_LINK} 创建硬链接
+  {"unlink", TRIGGER_UNLINK} 删除inode
+  {"truncate", TRIGGER_TRUNCATE} 截断
+  {"create_file", TRIGGER_CREATE_FILE} 创建文件
+  {"mkdir", TRIGGER_MKDIR} 创建目录
+  {"rmdir", TRIGGER_RMDIR} 删除目录
+  ///////////////////////////////
+  {"create_thread", TRIGGER_CREATE_THREAD} 创建线程
+  {"fork", TRIGGER_FORK} 创建子进程
+  {"execve", TRIGGER_EXECVE} 内存映像替换
+  {"ptrace", TRIGGER_PTRACE} 调试
+  {"ptraceme", TRIGGER_PTRACEME} 调试
+  {"kill", TRIGGER_KILL} 发送信号
+  {"setuid", TRIGGER_SETUID} 设置uid
+  {"setgid", TRIGGER_SETGID} 设置gid
+  {"task_free", TRIGGER_TASK_FREE} 进程结束（只能record）
+  {"prctl", TRIGGER_PRCTL} 进程设置
+  ///////////////////
+  {"socket_create", TRIGGER_CREATE_SOCKET} 
+  {"listen", TRIGGER_LISTEN}
+  {"sendmsg", TRIGGER_SEND_MSG}
+  {"recvmsg", TRIGGER_RECV_MSG}
+  {"bind", TRIGGER_BIND}
+  {"connect", TRIGGER_CONNECT}
+  {"accept", TRIGGER_ACCEPT}
+  {"shutdown", TRIGGER_SHUTDOWN}};
+  /////////////////////////////
+configure格式：
+path(inode路径)
+trigger(hook点,可简单理解为)
+action：(记录(record)，阻止(deny))
+limited_task:受限进程
+"process":受限进程,pid或文件执行路径
+

@@ -1,0 +1,84 @@
+{
+    "file": [
+        {
+            "path": ["/home/yueyiqiao/桌面/test/test.cpp"],
+            "trigger": ["unlink","link","truncate","open"],
+            "action": "deny",
+            "limited_task":{
+                "include":1,
+                "uid":[],
+                "gid":[],
+                "process":[]           
+                }
+
+        },
+        {
+            "path": ["/usr/bin/ls"],
+            "trigger": ["exe"],
+            "action": "deny",
+            "limited_task":{
+                "include":1,
+                "uid":[],
+                "gid":[],
+                "process":[]           
+                }
+
+        },
+        {
+            "path": ["/home/yueyiqiao/桌面/test/output"],
+            "trigger": ["dir_restrict"],
+            "action": "deny",
+            "limited_task":{
+                "include":1,
+                "uid":[],
+                "gid":[],
+                "process":[]           
+                }
+
+        }
+        
+    ],
+    "process":
+    [
+        {
+            "limited_process":["/home/yueyiqiao/桌面/test/t"],
+            "trigger": ["fork","create_thread","ptrace","ptraceme"],
+            "action":"record"
+            
+        }
+        ,
+        {
+            "limited_process":[],
+            "trigger": ["kill","setuid","setgid"],
+            "action":"record"
+            
+        },
+        {
+            "limited_process":[],
+            "trigger": ["kill","setuid","setgid"],
+            "action":"record"
+            
+        }
+    ],
+    "network":
+    [
+        {
+            "limited_process":["/usr/bin/nc"],
+            "trigger":[],
+            "action":"deny",
+            "limit":{
+                "include":1,
+                "protocol":"tcp",
+                "dip":"127.0.0.1",
+                "dip_mask":"0xFFFFFFFF",
+                "dport_scale":[0,65535]
+            }
+        }
+        ,
+        {
+            "limited_process":["/usr/bin/nc"],
+            "trigger":["socket_create","bind","accept","sendmsg","recvmsg","listen","shutdown"],
+            "action":"record"
+        }
+    ]
+}
